@@ -33,3 +33,12 @@ impl ISprite2D for Player {
         // therefore we convert 'self.angular_speed * delta' which is a f64 to a f32
     }
 }
+
+#[godot_api]
+impl Player {
+    #[func]
+    fn some_func(n: i32) -> i32 {
+        godot_print!("hi from rust {}", n);
+        return n * 2;
+    }
+}
