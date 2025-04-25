@@ -1,10 +1,73 @@
-[gd_scene load_steps=3 format=3 uid="uid://cd55is0grybvp"]
+[gd_scene load_steps=4 format=3 uid="uid://cd55is0grybvp"]
 
 [ext_resource type="Texture2D" uid="uid://ca1hglvbbvfq8" path="res://icon.svg" id="1_hjvc4"]
 [ext_resource type="Script" uid="uid://1ce02xa8ov02" path="res://boot.gd" id="1_n76rq"]
+[ext_resource type="Script" uid="uid://ck0i5gb1tdrjv" path="res://match_joining.gd" id="3_t5imi"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_n76rq")
 
 [node name="Sprite2D" type="Player" parent="."]
 texture = ExtResource("1_hjvc4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("host_input", "port_input", "host_button", "join_button", "message_label")]
+script = ExtResource("3_t5imi")
+host_input = NodePath("PanelContainer/GridContainer/LineEdit")
+port_input = NodePath("PanelContainer/GridContainer/LineEdit2")
+host_button = NodePath("PanelContainer/GridContainer/Button")
+join_button = NodePath("PanelContainer/GridContainer/Button2")
+message_label = NodePath("PanelContainer/GridContainer/Label4")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -177.0
+offset_top = -50.5
+offset_right = 177.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Host"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "127.0.0.1"
+
+[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Port"
+
+[node name="LineEdit2" type="LineEdit" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "9999"
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Host"
+
+[node name="Button2" type="Button" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join
+"
+
+[node name="Label3" type="Label" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="CanvasLayer/PanelContainer/GridContainer"]
+layout_mode = 2
