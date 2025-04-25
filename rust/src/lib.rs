@@ -1,3 +1,4 @@
+mod networking;
 mod player;
 
 use godot::prelude::*;

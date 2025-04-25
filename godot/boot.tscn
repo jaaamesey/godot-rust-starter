@@ -10,13 +10,14 @@ script = ExtResource("1_n76rq")
 [node name="Sprite2D" type="Player" parent="."]
 texture = ExtResource("1_hjvc4")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("host_input", "port_input", "host_button", "join_button", "message_label")]
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("host_input", "port_input", "host_button", "join_button", "message_label", "networking")]
 script = ExtResource("3_t5imi")
 host_input = NodePath("PanelContainer/GridContainer/LineEdit")
 port_input = NodePath("PanelContainer/GridContainer/LineEdit2")
 host_button = NodePath("PanelContainer/GridContainer/Button")
 join_button = NodePath("PanelContainer/GridContainer/Button2")
 message_label = NodePath("PanelContainer/GridContainer/Label4")
+networking = NodePath("Networking")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 8
@@ -71,3 +72,5 @@ layout_mode = 2
 
 [node name="Label4" type="Label" parent="CanvasLayer/PanelContainer/GridContainer"]
 layout_mode = 2
+
+[node name="Networking" type="Networking" parent="CanvasLayer"]
