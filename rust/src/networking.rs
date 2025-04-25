@@ -34,6 +34,7 @@ impl INode for Networking {
                 return;
             }
             for (peer, state) in peers.unwrap() {
+                godot_print!("HANDLING PEER");
                 match state {
                     PeerState::Connected => {
                         godot_print!("Peer joined: {peer}");
@@ -45,6 +46,7 @@ impl INode for Networking {
                     }
                 }
             }
+            //godot_print!("{}", socket.connected_peers().count());
 
             // Accept any messages incoming
             for (peer, packet) in socket.channel_mut(CHANNEL_ID).receive() {
@@ -61,22 +63,55 @@ impl Networking {
     fn start(&mut self) {
         godot_print!("Starting connection...");
 
-        // Works!!
-        let (socket, loop_fut) =
-            matchbox_socket::WebRtcSocket::new_unreliable("ws://127.0.0.1:3536");
+        // // Works!!
+        // let (socket, loop_fut) =
+        //     matchbox_socket::WebRtcSocket::new_unreliable("ws://localhost:3536/some_lobby?next=2");
 
-        self.socket = Some(socket);
+        godot::task::spawn(async_main());
+    }
+}
 
-        godot::task::spawn(async move {
-            let res = loop_fut.await;
-            match res {
-                Ok(_) => {
-                    godot_print!("Successfully awaited");
+async fn async_main() {
+    godot_print!("Connecting to matchbox");
+    let (mut socket, loop_fut) = WebRtcSocket::new_reliable("ws://localhost:3536/");
+
+    let loop_fut = loop_fut.fuse();
+    futures::pin_mut!(loop_fut);
+
+    let timeout = Delay::new(Duration::from_millis(16));
+    futures::pin_mut!(timeout);
+
+    loop {
+        // Handle any new peers
+        for (peer, state) in socket.update_peers() {
+            match state {
+                PeerState::Connected => {
+                    godot_print!("Peer joined: {peer}");
+                    let packet = "hello friend!".as_bytes().to_vec().into_boxed_slice();
+                    socket.channel_mut(CHANNEL_ID).send(packet, peer);
                 }
-                Err(e) => {
-                    godot_print!("Error awaiting");
+                PeerState::Disconnected => {
+                    godot_print!("Peer left: {peer}");
                 }
             }
-        });
+        }
+
+        // Accept any messages incoming
+        for (peer, packet) in socket.channel_mut(CHANNEL_ID).receive() {
+            let message = String::from_utf8_lossy(&packet);
+            godot_print!("Message from {peer}: {message:?}");
+        }
+
+        select! {
+            // Restart this loop every 100ms
+            _ = (&mut timeout).fuse() => {
+                timeout.reset(Duration::from_millis(100));
+            }
+
+            // Or break if the message loop ends (disconnected, closed, etc.)
+            _ = &mut loop_fut => {
+                break;
+            }
+        }
     }
 }

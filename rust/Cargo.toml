@@ -26,8 +26,9 @@ tokio = "1.44.2"
 git = "https://github.com/godot-rust/gdext"
 branch = "master"
 features = [
+	"experimental-threads",
 	"experimental-wasm",
-	"experimental-wasm-nothreads",
+	#"experimental-wasm-nothreads",
 #"lazy-function-tables",
 ]
 
