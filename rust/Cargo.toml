@@ -7,28 +7,25 @@ edition = "2024"
 crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
 
 [dependencies]
-matchbox_socket = "0.11.0"
-futures-timer = { version = "3.0.3", features = ["wasm-bindgen"] }
+matchbox_socket = {path= "../matchbox_socket"}
+futures-timer = { version = "3.0.3"  }
 log = { version = "0.4", default-features = false }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 console_error_panic_hook = "0.1.7"
 console_log = "1.0"
 futures = { version = "0.3.31", default-features = false }
-wasm-bindgen-futures = "0.4.50"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 futures = "0.3.31"
-tokio = "1.44.2"
 
 
 [dependencies.godot]
 git = "https://github.com/godot-rust/gdext"
 branch = "master"
 features = [
-	"experimental-threads",
+	#"experimental-threads",
 	"experimental-wasm",
-	#"experimental-wasm-nothreads",
+	"experimental-wasm-nothreads",
 #"lazy-function-tables",
 ]
-

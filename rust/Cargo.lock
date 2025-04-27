@@ -895,8 +895,6 @@ dependencies = [
  "godot",
  "log",
  "matchbox_socket",
- "tokio",
- "wasm-bindgen-futures",
 ]
 
 [[package]]
@@ -1371,8 +1369,6 @@ dependencies = [
 [[package]]
 name = "matchbox_socket"
 version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dbe6e951ae32d3c7f6d137babb3f7ff00a1756943b1fc566575aac55a63c7cbd"
 dependencies = [
  "async-compat",
  "async-trait",

@@ -24,6 +24,10 @@ func _ready() -> void:
 		multiplayer.multiplayer_peer = peer
 	)
 	join_button.pressed.connect(func(): 
+		#var peer := WebRTCMultiplayerPeer.new()
+		#peer.create_client(0)
+		#
+		#multiplayer.multiplayer_peer = peer
 		networking.start()
 		#var peer := ENetMultiplayerPeer.new()
 		#peer.create_client(host_input.text.strip_edges(), int(port_input.text))
